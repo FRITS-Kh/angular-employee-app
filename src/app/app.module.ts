@@ -16,6 +16,7 @@ import { environment } from '@src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
+import { NotificationModule } from './services';
 
 const APP_DATE_FORMATS: MatDateFormats = {
   parse: {
@@ -38,6 +39,7 @@ const APP_DATE_FORMATS: MatDateFormats = {
     AngularFireModule.initializeApp(environment.firebase.config),
     AngularFirestoreModule,
     MatNativeDateModule,
+    NotificationModule.forRoot(),
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },

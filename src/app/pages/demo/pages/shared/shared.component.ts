@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ControlItem } from '@app/models/frontend';
+import { NotificationService } from '@app/services';
 import { markFormGroupTouched, regex, regexErrors } from '@app/shared/utils';
 
 @Component({
@@ -81,8 +82,12 @@ export class SharedComponent {
       },
     ],
   });
+  isSpinnerShown = false;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private notification: NotificationService
+  ) {}
 
   onSubmit(): void {
     console.log('Submit!');
@@ -118,9 +123,15 @@ export class SharedComponent {
     this.form.enabled ? this.form.disable() : this.form.enable();
   }
 
-  onToggleSpinner(): void {}
+  onToggleSpinner(): void {
+    this.isSpinnerShown = !this.isSpinnerShown;
+  }
 
-  onSuccess(): void {}
+  onSuccess(): void {
+    this.notification.success('Everything is fine!');
+  }
 
-  onError(): void {}
+  onError(): void {
+    this.notification.error('Oops! Something is wrong');
+  }
 }
