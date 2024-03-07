@@ -1,0 +1,12 @@
+@import "styles/colors.scss";
+
+.date {
+  display: inline-flex;
+  align-items: center;
+}
+
+:host-context(.form-field_error) {
+  input {
+    border: 1px solid $error;
+  }
+}
