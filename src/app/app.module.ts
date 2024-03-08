@@ -11,12 +11,16 @@ import {
   MAT_DATE_FORMATS,
   MAT_DATE_LOCALE,
 } from '@angular/material/core';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
 
 import { environment } from '@src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { NotificationModule } from './services';
+import { effects, reducers } from './store';
 
 const APP_DATE_FORMATS: MatDateFormats = {
   parse: {
@@ -29,6 +33,9 @@ const APP_DATE_FORMATS: MatDateFormats = {
     monthYearA11yLabel: { year: 'numeric', month: 'long' },
   },
 };
+const StoreDevtools = !environment.production
+  ? StoreDevtoolsModule.instrument({ maxAge: 50 })
+  : [];
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent],
@@ -39,6 +46,14 @@ const APP_DATE_FORMATS: MatDateFormats = {
     AngularFireModule.initializeApp(environment.firebase.config),
     AngularFirestoreModule,
     MatNativeDateModule,
+    StoreModule.forRoot(reducers, {
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true,
+      },
+    }),
+    EffectsModule.forRoot(effects),
+    StoreDevtools,
     NotificationModule.forRoot(),
   ],
   providers: [
