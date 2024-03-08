@@ -6,15 +6,20 @@ import {
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, catchError, map, of, switchMap, take, zip } from 'rxjs';
 
-import * as fromActions from './dictionaries.actions';
 import {
   ControlItem,
   Dictionaries,
   Dictionary,
   Item,
 } from './dictionaries.models';
+import * as fromActions from './dictionaries.actions';
+import * as jsonCountries from '@src/assets/countries.json';
 
 type Action = fromActions.All;
+interface Country {
+  code: string;
+  name: string;
+}
 
 const documentToItem = (x: DocumentChangeAction<any>): Item => {
   const data = x.payload['doc'].data();
@@ -72,14 +77,25 @@ export class DictionariesEffects {
             .pipe(
               take(1),
               map((items) => items.map((x) => documentToItem(x)))
-            )
+            ),
+          of(
+            (jsonCountries as any).default.map((country: Country) => ({
+              id: country.code.toUpperCase(),
+              name: country.name,
+              icon: {
+                src: null,
+                cssClass: `fflag fflag-${country.code.toUpperCase()}`,
+              },
+            }))
+          )
         ).pipe(
-          map(([roles, specializations, qualifications, skills]) => {
+          map(([roles, specializations, qualifications, skills, countries]) => {
             const dictionaries: Dictionaries = {
               roles: addDictionary(roles),
               specializations: addDictionary(specializations),
               qualifications: addDictionary(qualifications),
               skills: addDictionary(skills),
+              countries: addDictionary(countries),
             };
 
             return new fromActions.ReadSuccess(dictionaries);
