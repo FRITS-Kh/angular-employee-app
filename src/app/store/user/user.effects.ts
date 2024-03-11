@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { sendEmailVerification } from '@angular/fire/auth';
+import { authState, sendEmailVerification } from '@angular/fire/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
@@ -32,6 +32,30 @@ export class UserEffects {
     private notification: NotificationService
   ) {}
 
+  init: Observable<Action> = createEffect(() =>
+    this.actions.pipe(
+      ofType(fromActions.Types.INIT),
+      switchMap(() => this.afAuth.authState.pipe(take(1))),
+      switchMap((authState) => {
+        if (!authState) {
+          return of(new fromActions.InitUnauthorized());
+        }
+
+        return this.afs
+          .doc<User>(`users/${authState.uid}`)
+          .valueChanges()
+          .pipe(
+            take(1),
+            map(
+              (user) =>
+                new fromActions.InitAuthorized(authState.uid, user || null)
+            ),
+            catchError((err) => of(new fromActions.InitError(err.message)))
+          );
+      })
+    )
+  );
+
   signInEmail: Observable<Action> = createEffect(() =>
     this.actions.pipe(
       ofType(fromActions.Types.SIGN_IN_EMAIL),
@@ -49,6 +73,9 @@ export class UserEffects {
               .valueChanges()
               .pipe(
                 take(1),
+                tap(() => {
+                  this.router.navigate(['/']);
+                }),
                 map(
                   (user) =>
                     new fromActions.SignInEmailSuccess(
@@ -83,7 +110,8 @@ export class UserEffects {
             sendEmailVerification(
               credentials.user!,
               environment.firebase.actionCodeSettings
-            ); //ToDo: check performance
+            );
+            this.router.navigate(['/auth/email-confirm']);
           }),
           map(
             (signUpState) =>

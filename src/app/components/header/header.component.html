@@ -1,11 +1,31 @@
 <div class="header">
   <div class="header__title">Employee App</div>
-  <div class="header__navigation">
+  <nav class="header__navigation">
     <a
       class="app-a header__link"
       routerLink="demo"
       routerLinkActive="app-a_active"
-      >Demo</a
     >
-  </div>
+      Demo
+    </a>
+    <ng-container *ngIf="!isAuthorized">
+      <a
+        class="app-a header__link"
+        routerLink="auth/login"
+        routerLinkActive="app-a_active"
+      >
+        Log in
+      </a>
+      <a
+        class="app-a header__link"
+        routerLink="auth/registration"
+        routerLinkActive="app-a_active"
+      >
+        Registration
+      </a>
+    </ng-container>
+    <ng-container *ngIf="isAuthorized">
+      <a class="app-a header__link" (click)="onSignOut()">Sing Out</a>
+    </ng-container>
+  </nav>
 </div>
