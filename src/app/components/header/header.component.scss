@@ -1,3 +1,5 @@
+@import "styles/colors.scss";
+
 .header {
   height: 60px;
   padding: 0 20px;
@@ -8,6 +10,11 @@
     font-size: 1.2em;
     display: inline-flex;
     align-items: center;
+    color: $on-base;
+
+    &:focus {
+      box-shadow: 0 0 2px $primary;
+    }
   }
 
   &__navigation {
