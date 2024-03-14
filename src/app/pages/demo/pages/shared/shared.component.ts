@@ -134,4 +134,8 @@ export class SharedComponent {
   onError(): void {
     this.notification.error('Oops! Something is wrong');
   }
+
+  onFilesChanged(urls: string | string[]): void {
+    console.log('urls = ', urls);
+  }
 }
