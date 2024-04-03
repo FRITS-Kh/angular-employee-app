@@ -1,0 +1,20 @@
+@import "styles/colors.scss";
+@import "styles/mixins.scss";
+
+.experiences {
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+.experience {
+  @include card;
+
+  margin-bottom: 16px;
+
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

@@ -80,6 +80,26 @@ export function reducer(
       return { ...state, error: action.error, loading: false };
     }
 
+    case fromActions.Types.CREATE: {
+      return { ...state, loading: true, error: '' };
+    }
+    case fromActions.Types.CREATE_SUCCESS: {
+      return { ...state, entity: action.user, loading: false };
+    }
+    case fromActions.Types.CREATE_ERROR: {
+      return { ...state, error: action.error, loading: false };
+    }
+
+    case fromActions.Types.UPDATE: {
+      return { ...state, loading: true, error: '' };
+    }
+    case fromActions.Types.UPDATE_SUCCESS: {
+      return { ...state, entity: action.user, loading: false };
+    }
+    case fromActions.Types.UPDATE_ERROR: {
+      return { ...state, error: action.error, loading: false };
+    }
+
     default: {
       return state;
     }

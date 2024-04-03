@@ -10,7 +10,7 @@ export interface User {
   country: string;
   about?: string;
   roleId: string;
-  role: Employee | Recruiter;
+  role: Employee | Recruiter | null;
   created: FieldValue;
   updated?: FieldValue;
 }

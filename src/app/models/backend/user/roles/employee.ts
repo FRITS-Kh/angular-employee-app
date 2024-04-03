@@ -1,7 +1,7 @@
 export interface Employee {
-  specialization: Specialization;
+  specialization: Specialization | null;
   skills: Skill[];
-  qualification: Qualification;
+  qualification: Qualification | null;
   expectedSalary: number;
   experiences: Experience[];
 }

@@ -3,15 +3,15 @@ export const environment = {
   name: 'production',
   firebase: {
     config: {
-      apiKey: 'AIzaSyC1ZpHHY6EdkOJkcVvl4_hHr0Q33yV_rvQ',
-      authDomain: 'angular-employee-platform.firebaseapp.com',
-      projectId: 'angular-employee-platform',
-      storageBucket: 'angular-employee-platform.appspot.com',
-      messagingSenderId: '210207100158',
-      appId: '1:210207100158:web:342f74754bab9d4945a9af',
+      apiKey: process.env['AEP_API_KEY'],
+      authDomain: process.env['AEP_AUTH_DOMAIN'],
+      projectId: process.env['AEP_PROJECT_ID'],
+      storageBucket: process.env['AEP_STORAGE_BUCKET'],
+      messagingSenderId: process.env['AEP_MESSAGING_SENDER_ID'],
+      appId: process.env['AEP_APP_ID'],
     },
     actionCodeSettings: {
-      url: 'http://localhost:5200/demo',
+      url: 'http://localhost:5200/profile/new',
       handleCodeInApp: true,
     },
   },

@@ -17,7 +17,7 @@ export const getLoading = createSelector(
 
 export const getIsReady = createSelector(
   getDictionariesState,
-  (state) => state.entities && !state.loading
+  (state) => Boolean(state.entities) && !state.loading
 );
 
 export const getRoles = createSelector(
