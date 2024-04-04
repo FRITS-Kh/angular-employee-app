@@ -1,4 +1,5 @@
 import { createSelector } from '@ngrx/store';
+
 import { FormState } from './form.reducer';
 import { ProfileState, getProfileState } from '../index';
 

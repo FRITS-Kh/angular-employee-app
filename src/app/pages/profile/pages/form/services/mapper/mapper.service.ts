@@ -114,7 +114,7 @@ export class MapperService {
       return role;
     }
 
-    if (form.professional?.roleId === 'reqruiter') {
+    if (form.professional?.roleId === 'recruiter') {
       const formRole = form.professional.role as RecruiterForm;
       const role: Recruiter = {
         companyName: formRole.companyName,

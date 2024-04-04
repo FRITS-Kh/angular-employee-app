@@ -5,6 +5,9 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { User } from '@app/store/user';
 
 @Component({
   selector: 'app-header',
@@ -13,10 +16,19 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
+  @Input() user: User | null = null;
   @Input() isAuthorized = false;
   @Output() signOut = new EventEmitter<void>();
 
+  constructor(private router: Router) {}
+
   onSignOut(): void {
     this.signOut.emit();
+    this.router.navigate(['/static/welcome']);
+  }
+
+  onProfileNavigate(): void {
+    const path = this.user?.uid ?? 'new';
+    this.router.navigate(['/profile', path]);
   }
 }

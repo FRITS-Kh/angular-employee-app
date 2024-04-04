@@ -55,8 +55,6 @@ export class FilesUploadComponent {
         this.files.push(file);
       }
     }
-
-    console.log(files);
   }
 
   onCrop(file: File) {

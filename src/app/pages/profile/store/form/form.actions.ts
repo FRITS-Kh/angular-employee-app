@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+
 import { ProfileForm } from './form.models';
 
 export enum Types {

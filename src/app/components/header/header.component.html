@@ -25,7 +25,7 @@
       </a>
     </ng-container>
     <ng-container *ngIf="isAuthorized">
-      <a class="app-a header__link" routerLink="profile/new">Profile</a>
+      <a class="app-a header__link" (click)="onProfileNavigate()">Profile</a>
       <a class="app-a header__link" (click)="onSignOut()">Sing Out</a>
     </ng-container>
   </nav>
