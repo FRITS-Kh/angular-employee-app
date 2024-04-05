@@ -22,6 +22,9 @@ export class DisplayComponent implements OnInit, OnDestroy {
   user$: Observable<fromProfileUser.User | null> = this.store.pipe(
     select(fromProfileUser.getUser)
   );
+  loading$: Observable<boolean> = this.store.pipe(
+    select(fromProfileUser.getLoading)
+  );
   isOwnProfile$!: Observable<boolean>;
 
   constructor(

@@ -20,6 +20,8 @@
         [role]="getRecruiterRole(user.role)"
       ></app-recruiter>
     </ng-container>
+
+    <app-spinner *ngIf="loading$ | async"></app-spinner>
   </div>
 
   <div class="app-page__footer" *ngIf="isOwnProfile$ | async">

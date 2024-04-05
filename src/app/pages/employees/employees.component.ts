@@ -14,6 +14,7 @@ import { User } from './store/list/list.models';
 })
 export class EmployeesComponent implements OnInit {
   employees$: Observable<User[]> = this.store.pipe(select(fromList.getItems));
+  loading$: Observable<boolean> = this.store.pipe(select(fromList.getLoading));
 
   constructor(private store: Store<fromRoot.State>) {}
 

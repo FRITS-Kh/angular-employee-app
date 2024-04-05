@@ -8,5 +8,7 @@
       *ngFor="let employee of employees"
       [employee]="employee"
     ></app-employee>
+
+    <app-spinner *ngIf="loading$ | async"></app-spinner>
   </div>
 </div>

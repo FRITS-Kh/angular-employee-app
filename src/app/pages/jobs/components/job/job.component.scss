@@ -1,0 +1,9 @@
+@import "styles/mixins.scss";
+
+.job {
+  @include card;
+
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+}

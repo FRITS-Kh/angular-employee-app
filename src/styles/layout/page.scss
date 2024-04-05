@@ -12,6 +12,11 @@
     text-align: center;
   }
 
+  &__content {
+    position: relative;
+    min-height: 80px;
+  }
+
   &__footer {
     margin-top: 32px;
     display: flex;
