@@ -9,7 +9,7 @@ const initialState: FormState = {
 };
 
 export function reducer(
-  state = initialState,
+  state: FormState = initialState,
   action: fromActions.All
 ): FormState {
   switch (action.type) {

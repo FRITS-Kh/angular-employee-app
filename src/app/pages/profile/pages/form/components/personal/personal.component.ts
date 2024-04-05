@@ -33,9 +33,9 @@ export class PersonalComponent implements OnInit, OnDestroy {
   @Output() changed = new EventEmitter<PersonalForm>();
 
   form: FormGroup = this.fb.group({
-    photoUrl: [null],
+    photoUrl: [''],
     name: [
-      null,
+      '',
       {
         updateOn: 'blur',
         validators: [

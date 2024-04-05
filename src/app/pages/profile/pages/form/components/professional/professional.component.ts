@@ -42,7 +42,7 @@ export class ProfessionalComponent implements OnInit, OnDestroy {
         validators: [Validators.required],
       },
     ],
-    about: [null],
+    about: [''],
   });
   regexErrors = regexErrors;
   private destroy = new Subject<void>();

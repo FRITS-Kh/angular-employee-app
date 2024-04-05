@@ -14,7 +14,7 @@ const initialState: DictionariesState = {
 };
 
 export function reducer(
-  state = initialState,
+  state: DictionariesState = initialState,
   action: fromActions.All
 ): DictionariesState {
   switch (action.type) {

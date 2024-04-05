@@ -16,7 +16,7 @@ const initialState: UserState = {
 };
 
 export function reducer(
-  state = initialState,
+  state: UserState = initialState,
   action: fromActions.All
 ): UserState {
   switch (action.type) {
