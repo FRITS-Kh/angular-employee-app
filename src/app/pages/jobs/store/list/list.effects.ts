@@ -37,11 +37,14 @@ export class ListEffects {
     this.actions.pipe(
       ofType(fromActions.Types.CREATE),
       map((action: fromActions.Create) => action.job),
-      map((job: JobCreateRequest) => ({ ...job, created: serverTimestamp() })),
-      switchMap((request: JobCreateRequest) =>
-        from(this.afs.collection('jobs').add(request)).pipe(
-          map((res) => ({ ...request, id: res.id })),
-          map((job: Job) => new fromActions.CreateSuccess(job)),
+      map((job: JobCreateRequest) => ({
+        ...job,
+        created: serverTimestamp(),
+        id: this.afs.createId(),
+      })),
+      switchMap((job: Job) =>
+        from(this.afs.collection('jobs').doc(job.id).set(job)).pipe(
+          map(() => new fromActions.CreateSuccess(job)),
           catchError((err) => of(new fromActions.CreateError(err.message)))
         )
       )
@@ -52,9 +55,9 @@ export class ListEffects {
     this.actions.pipe(
       ofType(fromActions.Types.UPDATE),
       map((action: fromActions.Update) => action.job),
-      map((job: Job) => ({ ...job, updated: serverTimestamp() })),
-      switchMap((job) =>
-        from(this.afs.collection('jobs').doc(job.id).set(job)).pipe(
+      map((job) => ({ ...job, updated: serverTimestamp() })),
+      switchMap((job: Job) =>
+        from(this.afs.collection('jobs').doc(job.id).update(job)).pipe(
           map(() => new fromActions.UpdateSuccess(job.id, job)),
           catchError((err) => of(new fromActions.UpdateError(err.message)))
         )
