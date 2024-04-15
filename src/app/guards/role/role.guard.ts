@@ -1,18 +1,7 @@
-import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  CanActivateChild,
-  CanMatch,
-  GuardResult,
-  MaybeAsync,
-  Route,
-  Router,
-  RouterStateSnapshot,
-  UrlSegment,
-} from '@angular/router';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
 import { Store, select } from '@ngrx/store';
-import { Observable, map, take, tap } from 'rxjs';
+import { map, take, tap } from 'rxjs';
 
 import * as fromRoot from '@app/store';
 import * as fromUser from '@app/store/user';
@@ -25,38 +14,17 @@ export interface GuardData {
   roles: Role[];
 }
 
-@Injectable({
-  providedIn: 'root',
-})
-export class RoleGuard implements CanActivate, CanActivateChild, CanMatch {
-  constructor(private router: Router, private store: Store<fromRoot.State>) {}
+export const roleGuard: CanActivateFn = (route) => {
+  const router = inject(Router);
 
-  private check(allowedRoles: string[]): Observable<boolean> {
-    return this.store.pipe(
-      select(fromUser.getUser),
-      take(1),
-      map((user) => (user ? allowedRoles.includes(user.roleId) : false)),
-      tap((isAllowed) => {
-        if (!isAllowed) {
-          this.router.navigate(['/']);
-        }
-      })
-    );
-  }
-
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): MaybeAsync<GuardResult> {
-    return this.check(route.data['roles']);
-  }
-  canActivateChild(
-    childRoute: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): MaybeAsync<GuardResult> {
-    return this.check(childRoute.data['roles']);
-  }
-  canMatch(route: Route, segments: UrlSegment[]): MaybeAsync<GuardResult> {
-    return route.data ? this.check(route.data['roles']) : false;
-  }
-}
+  return inject(Store<fromRoot.State>).pipe(
+    select(fromUser.getUser),
+    take(1),
+    map((user) => (user ? route.data['roles'].includes(user.roleId) : false)),
+    tap((isAllowed) => {
+      if (!isAllowed) {
+        router.navigate(['/']);
+      }
+    })
+  );
+};
