@@ -10,12 +10,12 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     env:
-      AEP_APP_API_KEY: "${{ secrets.AEP_APP_API_KEY }}"
-      AEP_APP_AUTH_DOMAIN: "${{ secrets.AEP_APP_AUTH_DOMAIN }}"
-      AEP_APP_PROJECT_ID: "${{ secrets.AEP_APP_PROJECT_ID }}"
-      AEP_APP_STORAGE_BUCKET: "${{ secrets.AEP_APP_STORAGE_BUCKET }}"
-      AEP_APP_MESSAGING_SENDER_ID: "${{ secrets.AEP_APP_MESSAGING_SENDER_ID }}"
-      AEP_APP_APP_ID: "${{ secrets.AEP_APP_APP_ID }}"
+      AEP_API_KEY: "${{ secrets.AEP_API_KEY }}"
+      AEP_AUTH_DOMAIN: "${{ secrets.AEP_AUTH_DOMAIN }}"
+      AEP_PROJECT_ID: "${{ secrets.AEP_PROJECT_ID }}"
+      AEP_STORAGE_BUCKET: "${{ secrets.AEP_STORAGE_BUCKET }}"
+      AEP_MESSAGING_SENDER_ID: "${{ secrets.AEP_MESSAGING_SENDER_ID }}"
+      AEP_APP_ID: "${{ secrets.AEP_APP_ID }}"
     steps:
       - uses: actions/checkout@v4
       - run: npm ci && npm run build
