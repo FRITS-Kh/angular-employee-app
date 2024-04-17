@@ -1,3 +1,5 @@
+[Live demo.](https://react-images-stock.web.app/)
+
 # AngularEmployeePlatform
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.2.

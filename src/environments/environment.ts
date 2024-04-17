@@ -11,7 +11,7 @@ export const environment = {
       appId: process.env['AEP_APP_ID'],
     },
     actionCodeSettings: {
-      url: 'http://localhost:5200/profile/new',
+      url: 'https://angular-employee-platfor-7e9c8.web.app/profile/new',
       handleCodeInApp: true,
     },
   },
