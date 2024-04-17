@@ -6,6 +6,7 @@ import { GuardsComponent } from './guards.component';
 import { AuthComponent } from './components/auth/auth.component';
 import { UnauthComponent } from './components/unauth/unauth.component';
 import { RoleComponent } from './components/role/role.component';
+import { VerifiedComponent } from './components/verified/verified.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { RoleComponent } from './components/role/role.component';
     AuthComponent,
     UnauthComponent,
     RoleComponent,
+    VerifiedComponent,
   ],
   imports: [CommonModule, GuardsRoutingModule],
 })

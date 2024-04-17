@@ -7,6 +7,7 @@ export interface User {
   name: string;
   photoUrl: string;
   email: string;
+  isEmailVerified: boolean;
   country: string;
   about?: string;
   roleId: string;

@@ -6,12 +6,20 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import {
   AngularFireStorage,
   AngularFireUploadTask,
 } from '@angular/fire/compat/storage';
 import { UploadTaskSnapshot } from '@angular/fire/compat/storage/interfaces';
-import { Observable, Subject, finalize, lastValueFrom, takeUntil } from 'rxjs';
+import {
+  Observable,
+  Subject,
+  finalize,
+  lastValueFrom,
+  take,
+  takeUntil,
+} from 'rxjs';
 
 @Component({
   selector: 'app-upload',
@@ -28,10 +36,15 @@ export class UploadComponent implements OnInit, OnDestroy {
   downloadURL!: string;
   private destroy = new Subject<void>();
 
-  constructor(private storage: AngularFireStorage) {}
+  constructor(
+    private storage: AngularFireStorage,
+    private afAuth: AngularFireAuth
+  ) {}
 
   ngOnInit(): void {
-    this.startUpload();
+    this.afAuth.authState
+      .pipe(take(1), takeUntil(this.destroy))
+      .subscribe((user) => this.startUpload(user?.uid ?? ''));
   }
 
   ngOnDestroy(): void {
@@ -39,10 +52,10 @@ export class UploadComponent implements OnInit, OnDestroy {
     this.destroy.complete();
   }
 
-  startUpload(): void {
-    const path = `${this.file.type.split('/')[0]}/${Date.now()}_${
-      this.file.name
-    }`;
+  startUpload(id = ''): void {
+    const path = `${this.file.type.split('/')[0]}/${
+      id !== '' ? id : Date.now()
+    }_${this.file.name}`;
     const storageRef = this.storage.ref(path);
 
     this.task = this.storage.upload(path, this.file);

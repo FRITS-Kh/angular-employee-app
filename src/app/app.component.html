@@ -1,5 +1,6 @@
 <app-header
   [isAuthorized]="(isAuthorized$ | async) ?? false"
+  [isVerified]="(isVerified$ | async) ?? false"
   [user]="user$ | async"
   (signOut)="onSignOut()"
 ></app-header>

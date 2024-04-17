@@ -4,6 +4,7 @@ import * as fromActions from './user.actions';
 export interface UserState {
   entity: User | null;
   uid: string;
+  isEmailVerified: boolean;
   loading: boolean;
   error: string;
 }
@@ -11,6 +12,7 @@ export interface UserState {
 const initialState: UserState = {
   entity: null,
   uid: '',
+  isEmailVerified: false,
   loading: false,
   error: '',
 };
@@ -28,6 +30,7 @@ export function reducer(
         ...state,
         entity: action.user,
         uid: action.uid,
+        isEmailVerified: action.isEmailVerified,
         loading: false,
         error: '',
       };
@@ -52,6 +55,7 @@ export function reducer(
         ...state,
         entity: action.user,
         uid: action.uid,
+        isEmailVerified: action.isEmailVerified,
         loading: false,
         error: '',
       };

@@ -72,6 +72,7 @@ export class MapperService {
     return {
       uid: user.uid,
       email: user.email,
+      isEmailVerified: user.isEmailVerified,
       created: user.created,
       name: form.personal?.name ?? '',
       photoUrl: form.personal?.photoUrl ?? '',

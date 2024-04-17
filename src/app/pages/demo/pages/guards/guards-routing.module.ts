@@ -1,12 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { authGuard, roleGuard, Roles, unauthGuard } from '@app/guards';
+import {
+  authGuard,
+  roleGuard,
+  Roles,
+  unauthGuard,
+  verifiedGuard,
+} from '@app/guards';
 
 import { GuardsComponent } from './guards.component';
 import { AuthComponent } from './components/auth/auth.component';
 import { UnauthComponent } from './components/unauth/unauth.component';
 import { RoleComponent } from './components/role/role.component';
+import { VerifiedComponent } from './components/verified/verified.component';
 
 const routes: Routes = [
   {
@@ -22,6 +29,11 @@ const routes: Routes = [
         path: 'unauth',
         component: UnauthComponent,
         canActivate: [unauthGuard],
+      },
+      {
+        path: 'verified',
+        component: VerifiedComponent,
+        canActivate: [verifiedGuard],
       },
       {
         path: 'role',

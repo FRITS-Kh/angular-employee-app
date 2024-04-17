@@ -16,6 +16,9 @@ export class AppComponent implements OnInit {
   isAuthorized$: Observable<boolean> = this.store.pipe(
     select(fromUser.getIsAuthorized)
   );
+  isVerified$: Observable<boolean> = this.store.pipe(
+    select(fromUser.getIsEmailVerified)
+  );
   user$: Observable<fromUser.User | null> = this.store.pipe(
     select(fromUser.getUser)
   );

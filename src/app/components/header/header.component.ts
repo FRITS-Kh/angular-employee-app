@@ -18,6 +18,7 @@ import { User } from '@app/store/user';
 export class HeaderComponent {
   @Input() user: User | null = null;
   @Input() isAuthorized = false;
+  @Input() isVerified = false;
   @Output() signOut = new EventEmitter<void>();
 
   constructor(private router: Router) {}

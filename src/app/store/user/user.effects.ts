@@ -50,7 +50,11 @@ export class UserEffects {
             take(1),
             map(
               (user) =>
-                new fromActions.InitAuthorized(authState.uid, user || null)
+                new fromActions.InitAuthorized(
+                  authState.uid,
+                  authState.emailVerified,
+                  user || null
+                )
             ),
             catchError((err) => of(new fromActions.InitError(err.message)))
           );
@@ -69,19 +73,24 @@ export class UserEffects {
             credentials.password
           )
         ).pipe(
-          switchMap((sirnInState) =>
+          switchMap((signInState) =>
             this.afs
-              .doc<User>(`users/${sirnInState.user?.uid}`)
+              .doc<User>(`users/${signInState.user?.uid}`)
               .valueChanges()
               .pipe(
                 take(1),
                 tap(() => {
-                  this.router.navigate(['/']);
+                  this.router.navigate([
+                    signInState.user?.emailVerified
+                      ? '/'
+                      : '/auth/email-confirm',
+                  ]);
                 }),
                 map(
                   (user) =>
                     new fromActions.SignInEmailSuccess(
-                      sirnInState.user?.uid ?? '',
+                      signInState.user?.uid ?? '',
+                      Boolean(signInState.user?.emailVerified),
                       user || null
                     )
                 )
@@ -150,6 +159,7 @@ export class UserEffects {
         ...user,
         uid: state?.uid ?? '',
         email: state?.email ?? '',
+        isEmailVerified: Boolean(state?.emailVerified),
         created: serverTimestamp(),
       })),
       switchMap((user: User) =>

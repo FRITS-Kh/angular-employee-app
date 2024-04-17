@@ -136,6 +136,8 @@ export class SharedComponent {
   }
 
   onFilesChanged(urls: string | string[]): void {
-    console.log('urls = ', urls);
+    if (urls) {
+      console.log('urls = ', urls);
+    }
   }
 }

@@ -8,6 +8,7 @@
     >
       Demo
     </a>
+
     <ng-container *ngIf="!isAuthorized">
       <a
         class="app-a header__link"
@@ -24,9 +25,13 @@
         Registration
       </a>
     </ng-container>
-    <ng-container *ngIf="isAuthorized">
+
+    <ng-container *ngIf="isVerified">
       <a class="app-a header__link" routerLink="jobs">Jobs</a>
       <a class="app-a header__link" routerLink="employees">Employees</a>
+    </ng-container>
+
+    <ng-container *ngIf="isAuthorized">
       <a class="app-a header__link" (click)="onProfileNavigate()">Profile</a>
       <a class="app-a header__link" (click)="onSignOut()">Sing Out</a>
     </ng-container>

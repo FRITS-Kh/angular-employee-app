@@ -11,4 +11,8 @@ export const getLoading = createSelector(
 export const getIsAuthorized = createSelector(getUserState, (state) =>
   Boolean(state.uid)
 );
+export const getIsEmailVerified = createSelector(
+  getUserState,
+  (state) => state.isEmailVerified
+);
 export const getRoleId = createSelector(getUser, (user) => user && user.roleId);
