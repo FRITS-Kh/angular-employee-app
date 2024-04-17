@@ -1,4 +1,4 @@
-[Live demo.](https://react-images-stock.web.app/)
+[Live demo.](https://angular-employee-platfor-7e9c8.web.app/)
 
 # AngularEmployeePlatform
 
