@@ -20,6 +20,7 @@
 
   &__skills {
     display: flex;
+    flex-wrap: wrap;
   }
 }
 
@@ -29,6 +30,6 @@
   color: $on-secondary;
   padding: 2px 10px;
   border-radius: 12px;
-  margin-left: 5px;
+  margin: 0 0 8px 5px;
   font-size: 0.8em;
 }

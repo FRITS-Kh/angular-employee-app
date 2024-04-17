@@ -10,9 +10,9 @@
     </span>
   </p>
 
-  <p><b>Experience:</b></p>
+  <p *ngIf="role?.experiences"><b>Experience:</b></p>
 
-  <p *ngFor="let experience of role?.experiences">
+  <p class="employee__experiences" *ngFor="let experience of role?.experiences">
     {{ experience.companyName }}<br />
     {{ experience.period.from | date }} &mdash;
     {{ experience.period.to | date }}

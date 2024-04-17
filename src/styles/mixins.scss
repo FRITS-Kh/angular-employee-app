@@ -1,4 +1,5 @@
 @import "colors";
+@import "breakpoints";
 
 @mixin shadow {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
@@ -10,4 +11,25 @@
   padding: 32px;
   background: $base;
   border-radius: 8px;
+}
+
+@mixin sm {
+  @media (min-width: #{$screen-sm-min}) {
+    @content;
+  }
+}
+@mixin md {
+  @media (min-width: #{$screen-md-min}) {
+    @content;
+  }
+}
+@mixin lg {
+  @media (min-width: #{$screen-lg-min}) {
+    @content;
+  }
+}
+@mixin xl {
+  @media (min-width: #{$screen-xl-min}) {
+    @content;
+  }
 }
