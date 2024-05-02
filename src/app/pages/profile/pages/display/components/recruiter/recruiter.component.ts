@@ -4,6 +4,7 @@ import { Recruiter } from '../../../../store/user';
 
 @Component({
   selector: 'app-recruiter',
+  standalone: true,
   templateUrl: './recruiter.component.html',
   styleUrl: './recruiter.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

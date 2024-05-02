@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -12,6 +13,8 @@ export { ControlItem, Value } from '@app/models/frontend';
 
 @Component({
   selector: 'app-checkboxes',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './checkboxes.component.html',
   styleUrl: './checkboxes.component.scss',
   providers: [

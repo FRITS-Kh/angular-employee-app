@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Firestore, docData, doc } from '@angular/fire/firestore';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, catchError, map, of, switchMap, take } from 'rxjs';
 
@@ -10,20 +10,19 @@ type Action = fromActions.All;
 
 @Injectable()
 export class UserEffects {
-  constructor(private actions: Actions, private afs: AngularFirestore) {}
+  constructor(private actions: Actions, private firestore: Firestore) {}
 
   read: Observable<Action> = createEffect(() =>
     this.actions.pipe(
       ofType(fromActions.Types.READ),
       switchMap((action: fromActions.Read) =>
-        this.afs
-          .doc<User>(`users/${action.id}`)
-          .valueChanges()
-          .pipe(
-            take(1),
-            map((user) => new fromActions.ReadSuccess(user || null)),
-            catchError((err) => of(new fromActions.ReadError(err.message)))
-          )
+        (
+          docData(doc(this.firestore, `users/${action.id}`)) as Observable<User>
+        ).pipe(
+          take(1),
+          map((user) => new fromActions.ReadSuccess(user || null)),
+          catchError((err) => of(new fromActions.ReadError(err.message)))
+        )
       )
     )
   );

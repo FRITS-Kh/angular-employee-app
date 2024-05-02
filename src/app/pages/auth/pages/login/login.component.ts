@@ -1,14 +1,37 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { markFormGroupTouched, regex, regexErrors } from '@app/shared/utils';
+import {
+  ButtonComponent,
+  FormFieldComponent,
+  InputComponent,
+  PasswordComponent,
+  SpinnerComponent,
+} from '@app/shared';
+import { markFormGroupTouched, regexErrors } from '@app/shared/utils';
 import * as fromRoot from '@app/store';
 import * as fromUser from '@app/store/user';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormFieldComponent,
+    InputComponent,
+    PasswordComponent,
+    ButtonComponent,
+    SpinnerComponent,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

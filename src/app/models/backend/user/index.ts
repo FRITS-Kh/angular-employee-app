@@ -1,4 +1,4 @@
-import { FieldValue } from 'firebase/firestore';
+import { FieldValue } from '@angular/fire/firestore';
 import { Employee, Recruiter } from './roles';
 
 export * from './roles';

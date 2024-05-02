@@ -3,6 +3,7 @@ import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-user-photo',
+  standalone: true,
   templateUrl: './user-photo.component.html',
   styleUrl: './user-photo.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

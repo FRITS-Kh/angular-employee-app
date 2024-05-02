@@ -1,9 +1,14 @@
 import { Component } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
-import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
+import {
+  MatProgressSpinnerModule,
+  ProgressSpinnerMode,
+} from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-spinner',
+  standalone: true,
+  imports: [MatProgressSpinnerModule],
   templateUrl: './spinner.component.html',
   styleUrl: './spinner.component.scss',
 })

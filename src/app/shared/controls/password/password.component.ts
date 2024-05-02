@@ -14,6 +14,7 @@ export enum PasswordType {
 
 @Component({
   selector: 'app-password',
+  standalone: true,
   templateUrl: './password.component.html',
   styleUrl: './password.component.scss',
   providers: [

@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -5,6 +6,8 @@ import { Check, StepperService } from './services';
 
 @Component({
   selector: 'app-stepper',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './stepper.component.html',
   styleUrl: './stepper.component.scss',
 })

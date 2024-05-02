@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -11,7 +12,9 @@ import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
   FormControl,
+  ReactiveFormsModule,
 } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {
   Observable,
   Subject,
@@ -23,10 +26,18 @@ import {
 } from 'rxjs';
 
 import { ControlItem, Value } from '@app/models/frontend';
+import { HighlightPipe } from './pipes/highlight.pipe';
 export { ControlItem, Value } from '@app/models/frontend';
 
 @Component({
   selector: 'app-autocomplete',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    HighlightPipe,
+  ],
   templateUrl: './autocomplete.component.html',
   styleUrl: './autocomplete.component.scss',
   providers: [

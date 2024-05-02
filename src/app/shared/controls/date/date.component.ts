@@ -6,12 +6,17 @@ import {
   forwardRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import {
+  MatDatepickerInputEvent,
+  MatDatepickerModule,
+} from '@angular/material/datepicker';
 
-export type Value = number | null;
+export type DateValue = number | null;
 
 @Component({
   selector: 'app-date',
+  standalone: true,
+  imports: [MatDatepickerModule],
   templateUrl: './date.component.html',
   styleUrl: './date.component.scss',
   providers: [
@@ -26,19 +31,19 @@ export class DateComponent implements ControlValueAccessor {
   @Input() placeholder? = '';
   @Input() min?: Date | null;
   @Input() max?: Date | null;
-  @Output() changed = new EventEmitter<Value>();
+  @Output() changed = new EventEmitter<DateValue>();
   @Output() closed = new EventEmitter<void>();
 
-  value: Value = null;
+  value: DateValue = null;
   isDisabled = false;
-  private propagateChange = (value?: Value) => {};
+  private propagateChange = (value?: DateValue) => {};
   private propagateTouched = () => {};
 
   get inputValue(): Date | null {
     return this.value ? new Date(this.value) : null;
   }
 
-  writeValue(value: Value): void {
+  writeValue(value: DateValue): void {
     this.value = value;
   }
 

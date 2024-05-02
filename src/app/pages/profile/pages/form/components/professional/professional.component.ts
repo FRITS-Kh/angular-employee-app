@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -8,14 +9,28 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 
 import { Dictionaries } from '@app/store/dictionaries';
-import { markFormGroupTouched, regex, regexErrors } from '@app/shared/utils';
+import {
+  FormFieldComponent,
+  InputComponent,
+  RadiosComponent,
+} from '@app/shared';
+import { markFormGroupTouched, regexErrors } from '@app/shared/utils';
+import {
+  RecruiterComponent,
+  RecruiterForm,
+  EmployeeComponent,
+  EmployeeForm,
+} from './roles';
 import { StepperService } from '../stepper/services';
-import { RecruiterForm } from './roles/recruiter/recruiter.component';
-import { EmployeeForm } from './roles/employee/employee.component';
 
 export interface ProfessionalForm {
   about: string;
@@ -25,6 +40,16 @@ export interface ProfessionalForm {
 
 @Component({
   selector: 'app-professional',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormFieldComponent,
+    RadiosComponent,
+    InputComponent,
+    EmployeeComponent,
+    RecruiterComponent,
+  ],
   templateUrl: './professional.component.html',
   styleUrl: './professional.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

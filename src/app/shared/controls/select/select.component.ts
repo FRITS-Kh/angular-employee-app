@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -6,13 +7,15 @@ import {
   forwardRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MatSelectChange } from '@angular/material/select';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 
 import { ControlItem, Value } from '@app/models/frontend';
 export { ControlItem, Value } from '@app/models/frontend';
 
 @Component({
   selector: 'app-select',
+  standalone: true,
+  imports: [CommonModule, MatSelectModule],
   templateUrl: './select.component.html',
   styleUrl: './select.component.scss',
   providers: [

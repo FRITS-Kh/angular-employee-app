@@ -1,15 +1,34 @@
+import { CommonModule } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 
 import { markFormGroupTouched, regex, regexErrors } from '@app/shared/utils';
 import * as fromRoot from '@app/store';
 import * as fromList from '../../store/list';
+import {
+  ButtonComponent,
+  FormFieldComponent,
+  InputComponent,
+} from '@app/shared';
 import { Job } from '../../store/list';
 
 @Component({
   selector: 'app-form',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormFieldComponent,
+    InputComponent,
+    ButtonComponent,
+  ],
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss',
 })
@@ -70,6 +89,10 @@ export class FormComponent implements OnInit {
       this.store.dispatch(new fromList.Create(this.form.value));
     }
 
+    this.onClose();
+  }
+
+  onClose(): void {
     this.dialogRef.close();
   }
 }

@@ -15,6 +15,7 @@ const FILE_SIZE_KB = 1024;
 
 @Pipe({
   name: 'fileSize',
+  standalone: true,
 })
 export class FileSizePipe implements PipeTransform {
   transform(sizeInBytes: number, longForm = false): string {

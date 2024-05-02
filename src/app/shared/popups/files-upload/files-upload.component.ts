@@ -1,5 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+
+import { CropperComponent, UploadComponent } from './components';
+import { DropZoneDirective } from './directives';
 
 export interface DialogData {
   multiple: boolean;
@@ -8,6 +12,8 @@ export interface DialogData {
 
 @Component({
   selector: 'app-files-upload',
+  standalone: true,
+  imports: [CommonModule, DropZoneDirective, CropperComponent, UploadComponent],
   templateUrl: './files-upload.component.html',
   styleUrl: './files-upload.component.scss',
 })

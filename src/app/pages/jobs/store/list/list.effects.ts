@@ -1,8 +1,18 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import {
+  Firestore,
+  collection,
+  deleteDoc,
+  doc,
+  orderBy,
+  query,
+  serverTimestamp,
+  setDoc,
+  updateDoc,
+  collectionChanges,
+} from '@angular/fire/firestore';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, catchError, from, map, of, switchMap, take } from 'rxjs';
-import { serverTimestamp } from 'firebase/firestore';
 
 import { extractDocumentChangeActionData } from '@app/shared';
 import { Job, JobCreateRequest } from './list.models';
@@ -12,23 +22,22 @@ type Action = fromActions.All;
 
 @Injectable()
 export class ListEffects {
-  constructor(private actions: Actions, private afs: AngularFirestore) {}
+  constructor(private actions: Actions, private firestore: Firestore) {}
 
   read: Observable<Action> = createEffect(() =>
     this.actions.pipe(
       ofType(fromActions.Types.READ),
       switchMap(() =>
-        this.afs
-          .collection<Job>('jobs', (ref) => ref.orderBy('created'))
-          .snapshotChanges()
-          .pipe(
-            take(1),
-            map((changes) =>
-              changes.map((x) => extractDocumentChangeActionData<Job>(x))
-            ),
-            map((items: Job[]) => new fromActions.ReadSuccess(items)),
-            catchError((err) => of(new fromActions.ReadError(err.message)))
-          )
+        collectionChanges(
+          query(collection(this.firestore, 'jobs'), orderBy('created'))
+        ).pipe(
+          take(1),
+          map((changes) =>
+            changes.map((item) => extractDocumentChangeActionData<Job>(item))
+          ),
+          map((items: Job[]) => new fromActions.ReadSuccess(items)),
+          catchError((err) => of(new fromActions.ReadError(err.message)))
+        )
       )
     )
   );
@@ -40,10 +49,10 @@ export class ListEffects {
       map((job: JobCreateRequest) => ({
         ...job,
         created: serverTimestamp(),
-        id: this.afs.createId(),
+        id: doc(collection(this.firestore, 'jobs')).id,
       })),
       switchMap((job: Job) =>
-        from(this.afs.collection('jobs').doc(job.id).set(job)).pipe(
+        from(setDoc(doc(this.firestore, `jobs/${job.id}`), job)).pipe(
           map(() => new fromActions.CreateSuccess(job)),
           catchError((err) => of(new fromActions.CreateError(err.message)))
         )
@@ -57,7 +66,7 @@ export class ListEffects {
       map((action: fromActions.Update) => action.job),
       map((job) => ({ ...job, updated: serverTimestamp() })),
       switchMap((job: Job) =>
-        from(this.afs.collection('jobs').doc(job.id).update(job)).pipe(
+        from(updateDoc(doc(this.firestore, `jobs/${job.id}`), { ...job })).pipe(
           map(() => new fromActions.UpdateSuccess(job.id, job)),
           catchError((err) => of(new fromActions.UpdateError(err.message)))
         )
@@ -70,7 +79,7 @@ export class ListEffects {
       ofType(fromActions.Types.DELETE),
       map((action: fromActions.Delete) => action.id),
       switchMap((id) =>
-        from(this.afs.collection('jobs').doc(id).delete()).pipe(
+        from(deleteDoc(doc(this.firestore, `jobs/${id}`))).pipe(
           map(() => new fromActions.DeleteSuccess(id)),
           catchError((err) => of(new fromActions.DeleteError(err.message)))
         )

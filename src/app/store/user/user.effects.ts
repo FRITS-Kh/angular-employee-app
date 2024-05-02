@@ -1,10 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { sendEmailVerification } from '@angular/fire/auth';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import {
+  Auth,
+  authState,
+  sendEmailVerification,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from '@angular/fire/auth';
+import {
+  Firestore,
+  docData,
+  doc,
+  setDoc,
+  serverTimestamp,
+} from '@angular/fire/firestore';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { serverTimestamp } from 'firebase/firestore';
 import {
   Observable,
   catchError,
@@ -28,8 +38,8 @@ type Action = fromActions.All;
 export class UserEffects {
   constructor(
     private actions: Actions,
-    private afAuth: AngularFireAuth,
-    private afs: AngularFirestore,
+    private auth: Auth,
+    private firestore: Firestore,
     private router: Router,
     private notification: NotificationService
   ) {}
@@ -37,27 +47,28 @@ export class UserEffects {
   init: Observable<Action> = createEffect(() =>
     this.actions.pipe(
       ofType(fromActions.Types.INIT),
-      switchMap(() => this.afAuth.authState.pipe(take(1))),
+      switchMap(() => authState(this.auth).pipe(take(1))),
       switchMap((authState) => {
         if (!authState) {
           return of(new fromActions.InitUnauthorized());
         }
 
-        return this.afs
-          .doc<User>(`users/${authState.uid}`)
-          .valueChanges()
-          .pipe(
-            take(1),
-            map(
-              (user) =>
-                new fromActions.InitAuthorized(
-                  authState.uid,
-                  authState.emailVerified,
-                  user || null
-                )
-            ),
-            catchError((err) => of(new fromActions.InitError(err.message)))
-          );
+        const user$ = docData(
+          doc(this.firestore, `users/${authState.uid}`)
+        ) as Observable<User>;
+
+        return user$.pipe(
+          take(1),
+          map(
+            (user) =>
+              new fromActions.InitAuthorized(
+                authState.uid,
+                authState.emailVerified,
+                user || null
+              )
+          ),
+          catchError((err) => of(new fromActions.InitError(err.message)))
+        );
       })
     )
   );
@@ -68,33 +79,33 @@ export class UserEffects {
       map((actions: fromActions.SignInEmail) => actions.credentials),
       switchMap((credentials) =>
         from(
-          this.afAuth.signInWithEmailAndPassword(
+          signInWithEmailAndPassword(
+            this.auth,
             credentials.email,
             credentials.password
           )
         ).pipe(
           switchMap((signInState) =>
-            this.afs
-              .doc<User>(`users/${signInState.user?.uid}`)
-              .valueChanges()
-              .pipe(
-                take(1),
-                tap(() => {
-                  this.router.navigate([
-                    signInState.user?.emailVerified
-                      ? '/'
-                      : '/auth/email-confirm',
-                  ]);
-                }),
-                map(
-                  (user) =>
-                    new fromActions.SignInEmailSuccess(
-                      signInState.user?.uid ?? '',
-                      Boolean(signInState.user?.emailVerified),
-                      user || null
-                    )
-                )
+            (
+              docData(
+                doc(this.firestore, `users/${signInState.user?.uid}`)
+              ) as Observable<User>
+            ).pipe(
+              take(1),
+              tap(() => {
+                this.router.navigate([
+                  signInState.user?.emailVerified ? '/' : '/auth/email-confirm',
+                ]);
+              }),
+              map(
+                (user) =>
+                  new fromActions.SignInEmailSuccess(
+                    signInState.user?.uid ?? '',
+                    Boolean(signInState.user?.emailVerified),
+                    user || null
+                  )
               )
+            )
           ),
           catchError((err) => {
             this.notification.error(err.message);
@@ -112,7 +123,8 @@ export class UserEffects {
       map((action: fromActions.SignUpEmail) => action.credentials),
       switchMap((credentials) =>
         from(
-          this.afAuth.createUserWithEmailAndPassword(
+          createUserWithEmailAndPassword(
+            this.auth,
             credentials.email,
             credentials.password
           )
@@ -142,7 +154,7 @@ export class UserEffects {
     this.actions.pipe(
       ofType(fromActions.Types.SIGN_OUT),
       switchMap(() =>
-        from(this.afAuth.signOut()).pipe(
+        from(this.auth.signOut()).pipe(
           map(() => new fromActions.SignOutSuccess()),
           catchError((err) => of(new fromActions.SignOutError(err.message)))
         )
@@ -154,7 +166,7 @@ export class UserEffects {
     this.actions.pipe(
       ofType(fromActions.Types.CREATE),
       map((action: fromActions.Create) => action.user),
-      withLatestFrom(this.afAuth.authState.pipe(take(1))),
+      withLatestFrom(authState(this.auth).pipe(take(1))),
       map(([user, state]) => ({
         ...user,
         uid: state?.uid ?? '',
@@ -163,7 +175,7 @@ export class UserEffects {
         created: serverTimestamp(),
       })),
       switchMap((user: User) =>
-        from(this.afs.collection('users').doc<User>(user.uid).set(user)).pipe(
+        from(setDoc(doc(this.firestore, `users/${user.uid}`), user)).pipe(
           tap(() => this.router.navigate(['/profile', user.uid])),
           map(() => new fromActions.CreateSuccess(user)),
           catchError((err) => of(new fromActions.CreateError(err.message)))
@@ -177,7 +189,7 @@ export class UserEffects {
       ofType(fromActions.Types.UPDATE),
       map((action: fromActions.Update) => action.user),
       switchMap((user) =>
-        from(this.afs.collection('users').doc<User>(user.uid).set(user)).pipe(
+        from(setDoc(doc(this.firestore, `users/${user.uid}`), user)).pipe(
           tap(() => this.router.navigate(['/profile', user.uid])),
           map(() => new fromActions.UpdateSuccess(user)),
           catchError((err) => of(new fromActions.UpdateError(err.message)))

@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -6,23 +7,24 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Auth, authState } from '@angular/fire/auth';
 import {
-  AngularFireStorage,
-  AngularFireUploadTask,
-} from '@angular/fire/compat/storage';
-import { UploadTaskSnapshot } from '@angular/fire/compat/storage/interfaces';
-import {
-  Observable,
-  Subject,
-  finalize,
-  lastValueFrom,
-  take,
-  takeUntil,
-} from 'rxjs';
+  Storage,
+  ref,
+  uploadBytesResumable,
+  UploadTask,
+  UploadTaskSnapshot,
+  getDownloadURL,
+  percentage,
+} from '@angular/fire/storage';
+import { Observable, Subject, finalize, map, take, takeUntil } from 'rxjs';
+
+import { FileSizePipe } from '../../pipes';
 
 @Component({
   selector: 'app-upload',
+  standalone: true,
+  imports: [CommonModule, FileSizePipe],
   templateUrl: './upload.component.html',
   styleUrl: './upload.component.scss',
 })
@@ -30,19 +32,16 @@ export class UploadComponent implements OnInit, OnDestroy {
   @Input() file!: File;
   @Output() complete = new EventEmitter<string>();
 
-  task!: AngularFireUploadTask;
+  task!: UploadTask;
   percentage$!: Observable<number>;
   snapshot$!: Observable<UploadTaskSnapshot | undefined>;
   downloadURL!: string;
   private destroy = new Subject<void>();
 
-  constructor(
-    private storage: AngularFireStorage,
-    private afAuth: AngularFireAuth
-  ) {}
+  constructor(private storage: Storage, private auth: Auth) {}
 
   ngOnInit(): void {
-    this.afAuth.authState
+    authState(this.auth)
       .pipe(take(1), takeUntil(this.destroy))
       .subscribe((user) => this.startUpload(user?.uid ?? ''));
   }
@@ -56,15 +55,16 @@ export class UploadComponent implements OnInit, OnDestroy {
     const path = `${this.file.type.split('/')[0]}/${
       id !== '' ? id : Date.now()
     }_${this.file.name}`;
-    const storageRef = this.storage.ref(path);
 
-    this.task = this.storage.upload(path, this.file);
-    this.snapshot$ = this.task.snapshotChanges();
+    const storageRef = ref(this.storage, path);
+
+    this.task = uploadBytesResumable(storageRef, this.file);
+    this.snapshot$ = percentage(this.task).pipe(map((item) => item.snapshot));
     this.snapshot$
       .pipe(
         takeUntil(this.destroy),
         finalize(async () => {
-          this.downloadURL = await lastValueFrom(storageRef.getDownloadURL());
+          this.downloadURL = await getDownloadURL(storageRef);
           this.complete.next(this.downloadURL);
         })
       )

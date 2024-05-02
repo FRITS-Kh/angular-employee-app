@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { ImageCroppedEvent, ImageCropperModule } from 'ngx-image-cropper';
 
 @Component({
   selector: 'app-cropper',
+  standalone: true,
+  imports: [ImageCropperModule],
   templateUrl: './cropper.component.html',
   styleUrl: './cropper.component.scss',
 })

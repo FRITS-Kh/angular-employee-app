@@ -3,8 +3,10 @@ import { Injectable } from '@angular/core';
 import { Employee, Recruiter, User, UserCreateRequest } from '@app/store/user';
 import { Dictionaries } from '@app/store/dictionaries';
 import { ProfileForm } from '../../form.component';
-import { EmployeeForm } from '../../components/professional/roles/employee/employee.component';
-import { RecruiterForm } from '../../components/professional/roles/recruiter/recruiter.component';
+import {
+  EmployeeForm,
+  RecruiterForm,
+} from '../../components/professional/roles';
 
 @Injectable()
 export class MapperService {

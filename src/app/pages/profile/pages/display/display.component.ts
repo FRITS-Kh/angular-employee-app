@@ -1,19 +1,31 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, RouterLink } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
 
+import { SpinnerComponent, UserPhotoComponent } from '@app/shared';
 import * as fromRoot from '@app/store';
 import * as fromUser from '@app/store/user';
 import * as fromProfileUser from '../../store/user';
+import { EmployeeComponent, RecruiterComponent } from './components';
 
 @Component({
   selector: 'app-display',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterLink,
+    EmployeeComponent,
+    RecruiterComponent,
+    UserPhotoComponent,
+    SpinnerComponent,
+  ],
   templateUrl: './display.component.html',
   styleUrl: './display.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -8,10 +8,22 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 
 import { Dictionaries } from '@app/store/dictionaries';
+import {
+  AutocompleteComponent,
+  FilesUploadDirective,
+  FormFieldComponent,
+  InputComponent,
+  UserPhotoComponent,
+} from '@app/shared';
 import { markFormGroupTouched, regex, regexErrors } from '@app/shared/utils';
 import { StepperService } from '../stepper/services';
 
@@ -23,6 +35,15 @@ export interface PersonalForm {
 
 @Component({
   selector: 'app-personal',
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    UserPhotoComponent,
+    FormFieldComponent,
+    InputComponent,
+    AutocompleteComponent,
+    FilesUploadDirective,
+  ],
   templateUrl: './personal.component.html',
   styleUrl: './personal.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

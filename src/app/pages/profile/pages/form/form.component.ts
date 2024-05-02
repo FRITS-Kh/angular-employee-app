@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,13 +9,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject, switchMap, takeUntil, zip } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 
+import { SpinnerComponent } from '@app/shared';
 import * as fromRoot from '@app/store';
 import * as fromDictionaries from '@app/store/dictionaries';
 import * as fromUser from '@app/store/user';
 import * as fromForm from '../../store/form';
-import { StepperService } from './components/stepper/services';
-import { PersonalForm } from './components/personal/personal.component';
-import { ProfessionalForm } from './components/professional/professional.component';
+import {
+  StepperComponent,
+  StepperService,
+  PersonalComponent,
+  PersonalForm,
+  ProfessionalComponent,
+  ProfessionalForm,
+} from './components';
 import { MapperService } from './services';
 
 export interface ProfileForm {
@@ -24,9 +31,18 @@ export interface ProfileForm {
 
 @Component({
   selector: 'app-form',
+  standalone: true,
+  imports: [
+    CommonModule,
+    StepperComponent,
+    PersonalComponent,
+    ProfessionalComponent,
+    SpinnerComponent,
+  ],
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [MapperService, StepperService],
 })
 export class FormComponent implements OnInit, OnDestroy {
   dictionaries$: Observable<fromDictionaries.Dictionaries | null> =

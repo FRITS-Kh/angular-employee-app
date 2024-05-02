@@ -1,13 +1,13 @@
-import { DocumentChangeAction } from '@angular/fire/compat/firestore';
+import { DocumentData } from '@angular/fire/firestore';
 
 export const extractDocumentChangeActionData = <T extends object>(
-  x: DocumentChangeAction<T>,
+  x: DocumentData,
   withId = true
 ): T => {
-  const data = x.payload.doc.data();
+  const data = x['doc'].data();
 
-  if (withId && 'id' in data) {
-    data.id = x.payload.doc.id;
+  if (withId) {
+    data.id = x['doc'].id;
   }
 
   return data;

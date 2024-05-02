@@ -1,6 +1,12 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
+import { FormFieldComponent, InputComponent } from '@app/shared';
 import { Dictionaries } from '@app/store/dictionaries';
 
 export interface RecruiterForm {
@@ -10,6 +16,8 @@ export interface RecruiterForm {
 
 @Component({
   selector: 'app-recruiter',
+  standalone: true,
+  imports: [ReactiveFormsModule, FormFieldComponent, InputComponent],
   templateUrl: './recruiter.component.html',
   styleUrl: './recruiter.component.scss',
 })

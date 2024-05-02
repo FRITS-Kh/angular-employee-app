@@ -1,13 +1,18 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Observable, filter, take } from 'rxjs';
 
 import * as fromRoot from './store';
 import * as fromDictionaries from './store/dictionaries';
 import * as fromUser from './store/user';
+import { HeaderComponent } from './components/header/header.component';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
+  imports: [CommonModule, RouterOutlet, HeaderComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })

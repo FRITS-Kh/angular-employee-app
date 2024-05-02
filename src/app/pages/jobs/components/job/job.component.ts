@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,9 +8,12 @@ import {
 } from '@angular/core';
 
 import { Job } from '../../store/list/list.models';
+import { ButtonComponent } from '@app/shared';
 
 @Component({
   selector: 'app-job',
+  standalone: true,
+  imports: [CommonModule, ButtonComponent],
   templateUrl: './job.component.html',
   styleUrl: './job.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

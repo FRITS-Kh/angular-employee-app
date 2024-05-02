@@ -1,5 +1,8 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
+import {
+  MAT_SNACK_BAR_DATA,
+  MatSnackBarModule,
+} from '@angular/material/snack-bar';
 
 export interface Notification {
   message: string;
@@ -7,6 +10,8 @@ export interface Notification {
 
 @Component({
   selector: 'app-notification',
+  standalone: true,
+  imports: [MatSnackBarModule],
   templateUrl: './notification.component.html',
   styleUrl: './notification.component.scss',
 })

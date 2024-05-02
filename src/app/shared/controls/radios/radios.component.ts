@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -12,6 +13,8 @@ export { ControlItem, Value } from '@app/models/frontend';
 
 @Component({
   selector: 'app-radios',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './radios.component.html',
   styleUrl: './radios.component.scss',
   providers: [

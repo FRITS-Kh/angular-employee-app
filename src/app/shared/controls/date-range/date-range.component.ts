@@ -10,19 +10,24 @@ import {
   NG_VALUE_ACCESSOR,
   FormBuilder,
   FormGroup,
+  ReactiveFormsModule,
 } from '@angular/forms';
 
-export interface Value {
+import { DateComponent } from '../date/date.component';
+
+export interface DateRangeValue {
   from: number;
   to: number;
 }
-export interface Placeholder {
+export interface DateRangePlaceholder {
   from: string;
   to: string;
 }
 
 @Component({
   selector: 'app-date-range',
+  standalone: true,
+  imports: [ReactiveFormsModule, DateComponent],
   templateUrl: './date-range.component.html',
   styleUrl: './date-range.component.scss',
   providers: [
@@ -34,14 +39,14 @@ export interface Placeholder {
   ],
 })
 export class DateRangeComponent implements ControlValueAccessor {
-  @Input() placeholder?: Placeholder;
-  @Output() changed = new EventEmitter<Value>();
+  @Input() placeholder?: DateRangePlaceholder;
+  @Output() changed = new EventEmitter<DateRangeValue>();
 
   form: FormGroup = this.fb.group({
     from: [null],
     to: [null],
   });
-  private propagateChange = (value?: Value) => {};
+  private propagateChange = (value?: DateRangeValue) => {};
   private propagateTouched = () => {};
 
   constructor(private fb: FormBuilder) {}
@@ -58,7 +63,7 @@ export class DateRangeComponent implements ControlValueAccessor {
     return to ? new Date(to) : null;
   }
 
-  writeValue(value: Value): void {
+  writeValue(value: DateRangeValue): void {
     this.form.patchValue(value || {});
   }
 

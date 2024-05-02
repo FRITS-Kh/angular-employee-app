@@ -1,22 +1,49 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
-import { regex, regexErrors } from '@app/shared/utils/regex';
-import { ControlEntities, mapControls } from '@app/shared/utils/form';
+import {
+  CheckboxesComponent,
+  FormFieldComponent,
+  InputComponent,
+  SelectComponent,
+} from '@app/shared';
+import {
+  regex,
+  regexErrors,
+  ControlEntities,
+  mapControls,
+} from '@app/shared/utils';
 import { Dictionaries } from '@app/store/dictionaries';
 
-import { ExperianceForm } from './experiences/experiences.component';
+import {
+  ExperienceForm,
+  ExperiencesComponent,
+} from './experiences/experiences.component';
 
 export interface EmployeeForm {
   specialization: string;
   skills: string[];
   qualification: string;
   expectedSalary: number;
-  experiences: ExperianceForm[];
+  experiences: ExperienceForm[];
 }
 
 @Component({
   selector: 'app-employee',
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    FormFieldComponent,
+    InputComponent,
+    ExperiencesComponent,
+    SelectComponent,
+    CheckboxesComponent,
+  ],
   templateUrl: './employee.component.html',
   styleUrl: './employee.component.scss',
 })

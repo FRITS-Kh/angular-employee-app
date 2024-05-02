@@ -9,6 +9,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-input',
+  standalone: true,
   templateUrl: './input.component.html',
   styleUrl: './input.component.scss',
   providers: [

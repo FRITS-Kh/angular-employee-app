@@ -1,12 +1,33 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 import { ControlItem } from '@app/models/frontend';
 import { NotificationService } from '@app/services';
+import {
+  ButtonComponent,
+  ControlsModule,
+  SpinnerComponent,
+  FilesUploadDirective,
+} from '@app/shared';
 import { markFormGroupTouched, regex, regexErrors } from '@app/shared/utils';
 
 @Component({
   selector: 'app-shared',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    ButtonComponent,
+    ControlsModule,
+    SpinnerComponent,
+    FilesUploadDirective,
+  ],
   templateUrl: './shared.component.html',
   styleUrl: './shared.component.scss',
 })

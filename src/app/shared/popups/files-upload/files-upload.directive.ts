@@ -11,6 +11,7 @@ import { FilesUploadComponent } from './files-upload.component';
 
 @Directive({
   selector: '[appFilesUpload]',
+  standalone: true,
 })
 export class FilesUploadDirective {
   @Input() multiple = false;

@@ -13,6 +13,10 @@
     }
   }
 
+  &__item {
+    flex-grow: 1;
+  }
+
   &__dash {
     padding-right: 12px;
   }
