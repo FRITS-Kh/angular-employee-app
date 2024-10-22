@@ -7,11 +7,8 @@ describe('EmailConfirmComponent', () => {
   let fixture: ComponentFixture<EmailConfirmComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [EmailConfirmComponent]
-    })
-    .compileComponents();
-    
+    await TestBed.configureTestingModule({}).compileComponents();
+
     fixture = TestBed.createComponent(EmailConfirmComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

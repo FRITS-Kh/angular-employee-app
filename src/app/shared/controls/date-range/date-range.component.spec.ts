@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatNativeDateModule } from '@angular/material/core';
 
 import { DateRangeComponent } from './date-range.component';
 
@@ -8,10 +9,9 @@ describe('DateRangeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DateRangeComponent]
-    })
-    .compileComponents();
-    
+      imports: [MatNativeDateModule],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(DateRangeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -7,11 +7,8 @@ describe('FormFieldComponent', () => {
   let fixture: ComponentFixture<FormFieldComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [FormFieldComponent]
-    })
-    .compileComponents();
-    
+    await TestBed.configureTestingModule({}).compileComponents();
+
     fixture = TestBed.createComponent(FormFieldComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

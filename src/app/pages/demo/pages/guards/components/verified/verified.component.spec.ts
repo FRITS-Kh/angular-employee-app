@@ -7,9 +7,7 @@ describe('VerifiedComponent', () => {
   let fixture: ComponentFixture<VerifiedComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [VerifiedComponent],
-    }).compileComponents();
+    await TestBed.configureTestingModule({}).compileComponents();
 
     fixture = TestBed.createComponent(VerifiedComponent);
     component = fixture.componentInstance;

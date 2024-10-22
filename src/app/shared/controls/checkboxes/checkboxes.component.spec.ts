@@ -7,11 +7,8 @@ describe('CheckboxesComponent', () => {
   let fixture: ComponentFixture<CheckboxesComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [CheckboxesComponent]
-    })
-    .compileComponents();
-    
+    await TestBed.configureTestingModule({}).compileComponents();
+
     fixture = TestBed.createComponent(CheckboxesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -7,11 +7,8 @@ describe('JobComponent', () => {
   let fixture: ComponentFixture<JobComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [JobComponent]
-    })
-    .compileComponents();
-    
+    await TestBed.configureTestingModule({}).compileComponents();
+
     fixture = TestBed.createComponent(JobComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

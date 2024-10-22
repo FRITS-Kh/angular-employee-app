@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProfessionalComponent } from './professional.component';
+import { StepperService } from '../stepper/services';
 
 describe('ProfessionalComponent', () => {
   let component: ProfessionalComponent;
@@ -8,10 +9,9 @@ describe('ProfessionalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ProfessionalComponent]
-    })
-    .compileComponents();
-    
+      providers: [StepperService],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(ProfessionalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -17,7 +17,6 @@ import { HeaderComponent } from './components/header/header.component';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  title = 'course-app';
   isAuthorized$: Observable<boolean> = this.store.pipe(
     select(fromUser.getIsAuthorized)
   );
