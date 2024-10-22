@@ -4,18 +4,17 @@ import {
   MatSnackBarModule,
 } from '@angular/material/snack-bar';
 
-import { NotificationComponent } from './notification.component';
+import { NotificationComponent, Notification } from './notification.component';
 
 describe('NotificationComponent', () => {
   let component: NotificationComponent;
   let fixture: ComponentFixture<NotificationComponent>;
+  const mockData: Notification = { message: 'mock message' };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NotificationComponent, MatSnackBarModule],
-      providers: [
-        { provide: MAT_SNACK_BAR_DATA, useValue: { message: 'mock message' } },
-      ],
+      imports: [MatSnackBarModule],
+      providers: [{ provide: MAT_SNACK_BAR_DATA, useValue: mockData }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(NotificationComponent);
@@ -25,5 +24,11 @@ describe('NotificationComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should display the correct notification message', () => {
+    const messageElement = fixture.nativeElement;
+
+    expect(messageElement.textContent).toContain(mockData.message);
   });
 });

@@ -7,11 +7,8 @@ describe('AuthComponent', () => {
   let fixture: ComponentFixture<AuthComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [AuthComponent]
-    })
-    .compileComponents();
-    
+    await TestBed.configureTestingModule({}).compileComponents();
+
     fixture = TestBed.createComponent(AuthComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -7,11 +7,8 @@ describe('WelcomeComponent', () => {
   let fixture: ComponentFixture<WelcomeComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [WelcomeComponent]
-    })
-    .compileComponents();
-    
+    await TestBed.configureTestingModule({}).compileComponents();
+
     fixture = TestBed.createComponent(WelcomeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -7,11 +7,8 @@ describe('StylesComponent', () => {
   let fixture: ComponentFixture<StylesComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [StylesComponent]
-    })
-    .compileComponents();
-    
+    await TestBed.configureTestingModule({}).compileComponents();
+
     fixture = TestBed.createComponent(StylesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

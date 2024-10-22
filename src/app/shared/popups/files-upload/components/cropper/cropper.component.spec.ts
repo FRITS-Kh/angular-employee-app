@@ -7,11 +7,8 @@ describe('CropperComponent', () => {
   let fixture: ComponentFixture<CropperComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [CropperComponent]
-    })
-    .compileComponents();
-    
+    await TestBed.configureTestingModule({}).compileComponents();
+
     fixture = TestBed.createComponent(CropperComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

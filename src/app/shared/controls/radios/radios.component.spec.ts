@@ -7,11 +7,8 @@ describe('RadiosComponent', () => {
   let fixture: ComponentFixture<RadiosComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [RadiosComponent]
-    })
-    .compileComponents();
-    
+    await TestBed.configureTestingModule({}).compileComponents();
+
     fixture = TestBed.createComponent(RadiosComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
